@@ -1,0 +1,21 @@
+name: Swift
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+
+    runs-on: macos-12
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: List Schemes
+      run: xcodebuild -showdestinations -scheme SimpleCommon
+    - name: Build
+      run: xcodebuild -scheme SimpleCommon -destination 'platform=macOS,variant=Mac Catalyst'
+    - name: Run tests
+      run: xcodebuild test-without-building -scheme SimpleCommon -destination 'platform=macOS,variant=Mac Catalyst'
