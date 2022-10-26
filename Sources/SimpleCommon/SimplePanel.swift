@@ -1,9 +1,10 @@
 import SwiftUI
 import UIKit
 
-/**
- An simple NavigationView that has an X in the top right
- */
+/// A wrapper view for presenting a view with pre-defined NavigationView leading and trailing items
+///
+/// Use ``SimplePanel`` to wrap a view inside a ``NavigationView`` with pre-defined
+/// leading and trailing items. See ``SimplePanelStyle`` for a list of available styles.
 public struct SimplePanel<Content>: View where Content: View {
     let style: SimplePanelStyle
     let leadingAction: (() throws -> Void)?
