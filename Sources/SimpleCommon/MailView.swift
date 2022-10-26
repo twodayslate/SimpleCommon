@@ -2,7 +2,9 @@ import SwiftUI
 import UIKit
 import MessageUI
 
-///https://stackoverflow.com/a/56785754/193772
+/// A SwiftUI Wrapper for `MFMailComposeViewController`
+/// 
+/// - SeeAlso: https://stackoverflow.com/a/56785754/193772
 public struct MailView: UIViewControllerRepresentable {
 
     @Binding var result: Result<MFMailComposeResult, Error>?

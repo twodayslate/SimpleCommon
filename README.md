@@ -1,3 +1,3 @@
 # SimpleCommon
 
-A description of this package.
+SwiftUI utilties and views that just feel native

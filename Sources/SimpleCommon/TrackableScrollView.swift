@@ -1,39 +1,84 @@
 import SwiftUI
 
-/** https://github.com/maxnatchanon/trackable-scroll-view */
+/// Track the scroll offset
+///
+/// - SeeAlso: https://github.com/maxnatchanon/trackable-scroll-view
+/// - SeeAlso: https://github.com/dkk/ScrollViewIfNeeded
 public struct TrackableScrollView<Content>: View where Content: View {
     let axes: Axis.Set
     let showIndicators: Bool
+    let dontScrollIfContentFits: Bool
     @Binding var contentOffset: CGFloat
     let content: () -> Content
     let preferenceKey: String
 
+    @State var scrollViewSize: CGSize = .zero
+    @State var contentSize: CGSize = .zero
+
+    var scrollViewSizePreferenceKey: String {
+        preferenceKey + "scrollViewSize"
+    }
+    var contentSizePreferenceKey: String {
+        preferenceKey + "contentSize"
+    }
+
     public init(
         _ axes: Axis.Set = .vertical,
         showIndicators: Bool = true,
-        id preferenceKey: String = "TrackableScrollView",
+        id preferenceKey: String = "TrackableScrollViewPreferenceKey",
+        dontScrollIfContentFits: Bool = false,
         contentOffset: Binding<CGFloat>,
-        @ViewBuilder content: @escaping () -> Content) {
+        @ViewBuilder content: @escaping () -> Content
+    ) {
         self.axes = axes
         self.showIndicators = showIndicators
         self._contentOffset = contentOffset
         self.content = content
-            self.preferenceKey = preferenceKey
+        self.preferenceKey = preferenceKey
+        self.dontScrollIfContentFits = dontScrollIfContentFits
+    }
+
+    var calculatedAxes: Axis.Set {
+        if dontScrollIfContentFits, self.axes != [] {
+            if axes == .vertical {
+                return contentSize.height <= scrollViewSize.height ? [] : .vertical
+            } else {
+                return contentSize.width <= scrollViewSize.width ? [] : .horizontal
+            }
+        }
+
+        return self.axes
     }
 
     public var body: some View {
         GeometryReader { outsideProxy in
-            ScrollView(self.axes, showsIndicators: self.showIndicators) {
+            ScrollView(calculatedAxes, showsIndicators: self.showIndicators) {
                 ZStack(alignment: self.axes == .vertical ? .top : .leading) {
                     GeometryReader { insideProxy in
                         Color.clear
                             .preference(key: ScrollOffsetPreferenceKey.self, value: [self.preferenceKey: self.calculateContentOffset(fromOutsideProxy: outsideProxy, insideProxy: insideProxy)])
                     }
                     content()
+                        .background {
+                            GeometryReader { reader in
+                                Color.clear
+                                    .preference(key: GeometryReaderPreferenceKey.self, value: [contentSizePreferenceKey: reader])
+                            }
+                        }
+                }
+            }
+            .background {
+                GeometryReader { reader in
+                    Color.clear
+                        .preference(key: GeometryReaderPreferenceKey.self, value: [scrollViewSizePreferenceKey: reader])
                 }
             }
             .onPreferenceChange(ScrollOffsetPreferenceKey.self) { value in
                 self.contentOffset = value[self.preferenceKey] ?? .zero
+            }
+            .onPreferenceChange(GeometryReaderPreferenceKey.self) { value in
+                self.scrollViewSize = value[scrollViewSizePreferenceKey]?.size ?? .zero
+                self.contentSize = value[contentSizePreferenceKey]?.size ?? .zero
             }
         }
     }
@@ -44,6 +89,22 @@ public struct TrackableScrollView<Content>: View where Content: View {
         } else {
             return outsideProxy.frame(in: .global).minX - insideProxy.frame(in: .global).minX
         }
+    }
+}
+
+extension GeometryProxy: Equatable {
+    public static func == (lhs: GeometryProxy, rhs: GeometryProxy) -> Bool {
+        lhs.size == rhs.size && lhs.frame(in: .global) == rhs.frame(in: .global) && lhs.frame(in: .local) == rhs.frame(in: .local)
+    }
+}
+
+struct GeometryReaderPreferenceKey: PreferenceKey {
+    typealias Value = [String: GeometryProxy]
+
+    static var defaultValue: [String: GeometryProxy] = [:]
+
+    static func reduce(value: inout [String: GeometryProxy], nextValue: () -> [String: GeometryProxy]) {
+        value.merge(nextValue()) { $1 }
     }
 }
 
