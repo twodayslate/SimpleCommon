@@ -38,7 +38,7 @@ public extension UIColor {
         case .systemRed:
             return "Red"
         case .systemGray:
-            return "SGray"
+            return "Gray"
         case .systemGreen:
             return "Green"
         case .systemYellow:
