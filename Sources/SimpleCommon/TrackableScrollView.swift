@@ -16,10 +16,13 @@ public struct TrackableScrollView<Content>: View where Content: View {
     @State var contentSize: CGSize = .zero
 
     var scrollViewSizePreferenceKey: String {
-        preferenceKey + "scrollViewSize"
+        preferenceKey + ".scrollViewSize"
     }
     var contentSizePreferenceKey: String {
-        preferenceKey + "contentSize"
+        preferenceKey + ".contentSize"
+    }
+    var offsetPreferenceKey: String {
+        preferenceKey + ".offset"
     }
 
     /// Creates a new instance that’s scrollable in the direction of the given axis and can show indicators while scrolling.
@@ -64,30 +67,30 @@ public struct TrackableScrollView<Content>: View where Content: View {
                 ZStack(alignment: self.axes == .vertical ? .top : .leading) {
                     GeometryReader { insideProxy in
                         Color.clear
-                            .preference(key: ScrollOffsetPreferenceKey.self, value: [self.preferenceKey: self.calculateContentOffset(fromOutsideProxy: outsideProxy, insideProxy: insideProxy)])
+                            .preference(key: MappedCGFloatPreferenceKey.self, value: [self.offsetPreferenceKey: calculateContentOffset(fromOutsideProxy: outsideProxy, insideProxy: insideProxy)])
                     }
                     content()
                         .background {
-                            GeometryReader { reader in
+                            GeometryReader { contentSizeProxy in
                                 Color.clear
-                                    .preference(key: GeometryReaderPreferenceKey.self, value: [contentSizePreferenceKey: reader])
+                                    .preference(key: MappedCGSizePreferenceKey.self, value: [contentSizePreferenceKey: contentSizeProxy.size])
                             }
                         }
                 }
             }
             .background {
-                GeometryReader { reader in
+                GeometryReader { scrollViewSizeProxy in
                     Color.clear
-                        .preference(key: GeometryReaderPreferenceKey.self, value: [scrollViewSizePreferenceKey: reader])
+                        .preference(key: MappedCGSizePreferenceKey.self, value: [scrollViewSizePreferenceKey: scrollViewSizeProxy.size])
                 }
             }
-            .onPreferenceChange(ScrollOffsetPreferenceKey.self) { value in
-                self.contentOffset = value[self.preferenceKey] ?? .zero
-            }
-            .onPreferenceChange(GeometryReaderPreferenceKey.self) { value in
-                self.scrollViewSize = value[scrollViewSizePreferenceKey]?.size ?? .zero
-                self.contentSize = value[contentSizePreferenceKey]?.size ?? .zero
-            }
+        }
+        .onPreferenceChange(MappedCGFloatPreferenceKey.self) { value in
+            contentOffset = value[offsetPreferenceKey] ?? .zero
+        }
+        .onPreferenceChange(MappedCGSizePreferenceKey.self) { value in
+            self.scrollViewSize = value[scrollViewSizePreferenceKey] ?? .zero
+            self.contentSize = value[contentSizePreferenceKey] ?? .zero
         }
     }
 
@@ -97,31 +100,5 @@ public struct TrackableScrollView<Content>: View where Content: View {
         } else {
             return outsideProxy.frame(in: .global).minX - insideProxy.frame(in: .global).minX
         }
-    }
-}
-
-extension GeometryProxy: Equatable {
-    public static func == (lhs: GeometryProxy, rhs: GeometryProxy) -> Bool {
-        lhs.size == rhs.size && lhs.frame(in: .global) == rhs.frame(in: .global) && lhs.frame(in: .local) == rhs.frame(in: .local)
-    }
-}
-
-struct GeometryReaderPreferenceKey: PreferenceKey {
-    typealias Value = [String: GeometryProxy]
-
-    static var defaultValue: [String: GeometryProxy] = [:]
-
-    static func reduce(value: inout [String: GeometryProxy], nextValue: () -> [String: GeometryProxy]) {
-        value.merge(nextValue()) { $1 }
-    }
-}
-
-struct ScrollOffsetPreferenceKey: PreferenceKey {
-    typealias Value = [String: CGFloat]
-
-    static var defaultValue: [String: CGFloat] = [:]
-
-    static func reduce(value: inout [String: CGFloat], nextValue: () -> [String: CGFloat]) {
-        value.merge(nextValue()) { $1 }
     }
 }
