@@ -4,8 +4,8 @@ import UIKit
 /**
  An simple NavigationView that has an X in the top right
  */
-public struct EZPanel<Content>: View where Content: View {
-    let style: EZPanelStyle
+public struct SimplePanel<Content>: View where Content: View {
+    let style: SimplePanelStyle
     let leadingAction: (() throws -> Void)?
     let trailingAction: (() throws -> Void)?
     let content: () -> Content
@@ -21,7 +21,7 @@ public struct EZPanel<Content>: View where Content: View {
     ///
     ///   If the action does not throw then the view will be dismissed
     public init(
-        style: EZPanelStyle = .close,
+        style: SimplePanelStyle = .close,
         leadingAction: (() throws -> Void)? = nil,
         trailingAction: (() throws -> Void)? = nil,
         @ViewBuilder content: @escaping () -> Content
@@ -45,7 +45,6 @@ public struct EZPanel<Content>: View where Content: View {
                 .bold()
         case .cancel:
             Text("Cancel")
-                .foregroundColor(.red)
         }
     }
 
@@ -53,7 +52,6 @@ public struct EZPanel<Content>: View where Content: View {
         switch style {
         case .saveAndCancel:
             Text("Cancel")
-                .foregroundColor(Color.red)
         default:
             EmptyView()
         }
@@ -123,8 +121,8 @@ public struct EZPanel<Content>: View where Content: View {
 
 struct SwiftUIView_Previews: PreviewProvider {
     static var previews: some View {
-        ForEach(EZPanelStyle.allCases) { style in
-            EZPanel(style: style) {
+        ForEach(SimplePanelStyle.allCases) { style in
+            SimplePanel(style: style) {
                 Text("Hello World")
             }
         }

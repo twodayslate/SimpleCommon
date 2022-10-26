@@ -1,6 +1,6 @@
 import Foundation
 
-public enum EZPanelStyle: Int, Codable, CaseIterable, Identifiable {
+public enum SimplePanelStyle: Int, Codable, CaseIterable, Identifiable {
     /// A simple trailing close button
     case close
     /// A trailing save button

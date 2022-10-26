@@ -15,6 +15,9 @@ struct ContentView: View {
             List {
                 NavigationLink("Test Mail", destination: MailTestView())
                 NavigationLink("Test Share Sheet", destination: ShareSheetTestView())
+                NavigationLink("Test TrackableScrollView", destination: TrackableScrollViewTestView())
+                NavigationLink("Test SimplePanel", destination: SimplePanelTestView())
+                NavigationLink("Test Color", destination: ColorTestView())
             }
         }
     }
