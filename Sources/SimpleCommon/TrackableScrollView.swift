@@ -22,6 +22,14 @@ public struct TrackableScrollView<Content>: View where Content: View {
         preferenceKey + "contentSize"
     }
 
+    /// Creates a new instance that’s scrollable in the direction of the given axis and can show indicators while scrolling.
+    /// - Parameters:
+    ///   - axes: The scrollable axes of the scroll view.
+    ///   - showIndicators: A value that indicates whether the scroll view displays the scrollable component of the content offset, in a way that’s suitable for the platform.
+    ///   - preferenceKey: The unique base identifier for the preference keys used in this view
+    ///   - dontScrollIfContentFits: A Boolean value indicating if scrolling should be disabled if the content fits inside the ScrollView
+    ///   - contentOffset: A Binding to the content's offset value
+    ///   - content: The scroll view’s content.
     public init(
         _ axes: Axis.Set = .vertical,
         showIndicators: Bool = true,
