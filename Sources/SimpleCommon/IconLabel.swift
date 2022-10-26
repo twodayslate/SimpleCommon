@@ -18,33 +18,43 @@ struct HorizontallyAlignedLabelStyle: LabelStyle {
     }
 }
 
-
+/// A standard label for user interface items, consisting of an app icon with a title.
+///
+/// This user interface component is very similiar to the labels used in Settings.app with
+/// an application-like icon next to the label text
+///
+/// The icon will be searched for in the following order:
+/// 1.  `image`
+/// 2. `imagePath`
+/// 3. `imageName`
+/// 4. `systemImage`
 public struct IconLabel: View {
     let iconBackgroundColor: Color
     let iconColor: Color
     let systemImage: String
-    let image: String?
+    let image: Image?
+    let imageName: String?
     let imageFile: String?
     let text: String
     let iconScale: CGFloat
 
-    /// A label with an app icon next to it
+    /// Creates a label with an icon image and a title generated from a string.
     /// - Parameters:
     ///   - iconBackgroundColor: The icon's background color
     ///   - iconColor: The icon's foreground color
     ///   - systemImage: The system image name to use for the icon
-    ///   - image: The image name for the icon
-    ///   - imageFile: The image file path for the icon
+    ///   - image: The image for the icon
+    ///   - imageName: The image name for the icon
+    ///   - imagePath: The image file path for the icon
     ///   - text: The label's text
     ///   - iconScale: The scale of the icon
-    ///
-    ///   First will look for `imageFile`, then `image`, then `systemImage`
     public init(
         iconBackgroundColor: Color = Color.accentColor,
         iconColor: Color = Color.white,
         systemImage: String = "xmark.square",
-        image: String? = nil,
-        imageFile: String? = nil,
+        image: Image? = nil,
+        imageName: String? = nil,
+        imagePath: String? = nil,
         text: String,
         iconScale: Double = 0.6
     ) {
@@ -52,7 +62,8 @@ public struct IconLabel: View {
         self.iconColor = iconColor
         self.systemImage = systemImage
         self.image = image
-        self.imageFile = imageFile
+        self.imageName = imageName
+        self.imageFile = imagePath
         self.text = text
         self.iconScale = iconScale
     }
@@ -69,10 +80,13 @@ public struct IconLabel: View {
                     .aspectRatio(contentMode: .fit)
                     .foregroundColor(self.iconBackgroundColor)
                     .overlay {
-                        if let path = imageFile, let uiImage = UIImage(contentsOfFile: path) {
+                        if let image = image {
+                            modified(image: image)
+                        }
+                        else if let path = imageFile, let uiImage = UIImage(contentsOfFile: path) {
                             modified(image: Image(uiImage: uiImage))
                         }
-                        else if let name = image {
+                        else if let name = imageName {
                             modified(image: Image(name))
                         } else {
                             modified(image: Image(systemName: systemImage))

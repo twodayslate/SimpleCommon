@@ -72,15 +72,17 @@ struct MailComposeViewModifier: ViewModifier {
 
     var subject: String
     var recipients: [String]
+    var onDismiss: (() -> Void)?
 
     func body(content: Content) -> some View {
-        //MFMailComposeViewController.canSendMail()
         content
             .sheet(isPresented: .init(get: {
-            MFMailComposeViewController.canSendMail() && isPresented
+            isPresented && MFMailComposeViewController.canSendMail()
         }, set: {
             isPresented = $0
-        })) {
+        }), onDismiss: {
+            onDismiss?()
+        }) {
             MailView(result: $result, subject: subject, toReceipt: recipients)
         }
         .onChange(of: isPresented) { value in
@@ -93,11 +95,28 @@ struct MailComposeViewModifier: ViewModifier {
 }
 
 public extension View {
+    /// Presents a mail compose sheet when a binding to a Boolean value that you provide is true.
+    ///
+    /// - parameters:
+    ///   - isPresented: A binding to a Boolean value that determines whether to present the sheet that you create in the modifier’s content closure.
+    ///   - result: A binding to a Result value that provides the finished result from the mail compose controller
+    ///   - onDismiss: The closure to execute when dismissing the sheet.
+    ///   - subject: The subject of the email
+    ///   - recipients: The recipients of the email
     func composeMail(
         isPresented: Binding<Bool>,
         result: Binding<Result<MFMailComposeResult, Error>?>,
+        onDismiss: (() -> Void)? = nil,
         subject: String,
         recipients: [String]? = []) -> some View {
-        self.modifier(MailComposeViewModifier(isPresented: isPresented, result: result, subject: subject, recipients: recipients ?? []))
+        self.modifier(
+            MailComposeViewModifier(
+                isPresented: isPresented,
+                result: result,
+                subject: subject,
+                recipients: recipients ?? [],
+                onDismiss: onDismiss
+            )
+        )
     }
 }
