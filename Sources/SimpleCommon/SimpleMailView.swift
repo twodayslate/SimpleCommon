@@ -5,7 +5,7 @@ import MessageUI
 /// A SwiftUI Wrapper for `MFMailComposeViewController`
 /// 
 /// - SeeAlso: https://stackoverflow.com/a/56785754/193772
-public struct MailView: UIViewControllerRepresentable {
+public struct SimpleMailView: UIViewControllerRepresentable {
 
     @Binding var result: Result<MFMailComposeResult, Error>?
     @Environment(\.dismiss) private var dismiss
@@ -53,7 +53,7 @@ public struct MailView: UIViewControllerRepresentable {
         return Coordinator(result: $result, dismiss: dismiss)
     }
 
-    public func makeUIViewController(context: UIViewControllerRepresentableContext<MailView>) -> MFMailComposeViewController {
+    public func makeUIViewController(context: UIViewControllerRepresentableContext<SimpleMailView>) -> MFMailComposeViewController {
         let vc = MFMailComposeViewController()
         vc.mailComposeDelegate = context.coordinator
         vc.setToRecipients(toReceipt)
@@ -63,7 +63,7 @@ public struct MailView: UIViewControllerRepresentable {
     }
 
     public func updateUIViewController(_ uiViewController: MFMailComposeViewController,
-                                context: UIViewControllerRepresentableContext<MailView>) {
+                                context: UIViewControllerRepresentableContext<SimpleMailView>) {
         // no-op
     }
 }
@@ -85,7 +85,7 @@ struct MailComposeViewModifier: ViewModifier {
         }), onDismiss: {
             onDismiss?()
         }) {
-            MailView(result: $result, subject: subject, toReceipt: recipients)
+            SimpleMailView(result: $result, subject: subject, toReceipt: recipients)
         }
         .onChange(of: isPresented) { value in
             if value, !MFMailComposeViewController.canSendMail() {

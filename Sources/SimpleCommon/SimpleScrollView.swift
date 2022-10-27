@@ -4,7 +4,7 @@ import SwiftUI
 ///
 /// - SeeAlso: https://github.com/maxnatchanon/trackable-scroll-view
 /// - SeeAlso: https://github.com/dkk/ScrollViewIfNeeded
-public struct TrackableScrollView<Content>: View where Content: View {
+public struct SimpleScrollView<Content>: View where Content: View {
     let axes: Axis.Set
     let showIndicators: Bool
     let dontScrollIfContentFits: Bool
@@ -67,13 +67,13 @@ public struct TrackableScrollView<Content>: View where Content: View {
                 ZStack(alignment: self.axes == .vertical ? .top : .leading) {
                     GeometryReader { insideProxy in
                         Color.clear
-                            .preference(key: MappedCGFloatPreferenceKey.self, value: [self.offsetPreferenceKey: calculateContentOffset(fromOutsideProxy: outsideProxy, insideProxy: insideProxy)])
+                            .preference(key: SimpleMappedCGFloatPreferenceKey.self, value: [self.offsetPreferenceKey: calculateContentOffset(fromOutsideProxy: outsideProxy, insideProxy: insideProxy)])
                     }
                     content()
                         .background {
                             GeometryReader { contentSizeProxy in
                                 Color.clear
-                                    .preference(key: MappedCGSizePreferenceKey.self, value: [contentSizePreferenceKey: contentSizeProxy.size])
+                                    .preference(key: SimpleMappedCGSizePreferenceKey.self, value: [contentSizePreferenceKey: contentSizeProxy.size])
                             }
                         }
                 }
@@ -81,14 +81,14 @@ public struct TrackableScrollView<Content>: View where Content: View {
             .background {
                 GeometryReader { scrollViewSizeProxy in
                     Color.clear
-                        .preference(key: MappedCGSizePreferenceKey.self, value: [scrollViewSizePreferenceKey: scrollViewSizeProxy.size])
+                        .preference(key: SimpleMappedCGSizePreferenceKey.self, value: [scrollViewSizePreferenceKey: scrollViewSizeProxy.size])
                 }
             }
         }
-        .onPreferenceChange(MappedCGFloatPreferenceKey.self) { value in
+        .onPreferenceChange(SimpleMappedCGFloatPreferenceKey.self) { value in
             contentOffset = value[offsetPreferenceKey] ?? .zero
         }
-        .onPreferenceChange(MappedCGSizePreferenceKey.self) { value in
+        .onPreferenceChange(SimpleMappedCGSizePreferenceKey.self) { value in
             self.scrollViewSize = value[scrollViewSizePreferenceKey] ?? .zero
             self.contentSize = value[contentSizePreferenceKey] ?? .zero
         }

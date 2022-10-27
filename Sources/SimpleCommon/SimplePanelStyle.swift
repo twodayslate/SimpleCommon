@@ -10,6 +10,8 @@ public enum SimplePanelStyle: Int, Codable, CaseIterable, Identifiable {
     case cancel
     /// A leading cancel and trailing save button
     case saveAndCancel
+    /// A trailing done button
+    case done
 
     public var id: Int {
         self.rawValue

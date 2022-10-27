@@ -11,7 +11,7 @@ import UIKit
 /**
  An Open in Safari action for URLs
  */
-public class SafariActivity: UIActivity {
+public class SimpleSafariActivity: UIActivity {
     public override var activityImage: UIImage? {
         let largeConfig = UIImage.SymbolConfiguration(scale: .large)
         return UIImage(systemName: "safari", withConfiguration: largeConfig)

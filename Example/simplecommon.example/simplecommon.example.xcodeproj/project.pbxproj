@@ -13,10 +13,10 @@
 		F63BFF3829087E9D00E18B62 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F63BFF3729087E9D00E18B62 /* Preview Assets.xcassets */; };
 		F63BFF4129087F1B00E18B62 /* MailTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63BFF4029087F1B00E18B62 /* MailTestView.swift */; };
 		F63BFF4429087F5D00E18B62 /* SimpleCommon in Frameworks */ = {isa = PBXBuildFile; productRef = F63BFF4329087F5D00E18B62 /* SimpleCommon */; };
-		F63BFF4629088DD600E18B62 /* ShareSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63BFF4529088DD600E18B62 /* ShareSheetView.swift */; };
 		F63BFF482908B3D000E18B62 /* TrackableScrollViewTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63BFF472908B3D000E18B62 /* TrackableScrollViewTestView.swift */; };
 		F63BFF4A29099D7700E18B62 /* SimplePanelTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63BFF4929099D7700E18B62 /* SimplePanelTestView.swift */; };
 		F63BFF4C2909A33E00E18B62 /* ColorTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63BFF4B2909A33E00E18B62 /* ColorTestView.swift */; };
+		F63BFF54290A391800E18B62 /* SimpleShareSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63BFF53290A391800E18B62 /* SimpleShareSheetView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,10 +27,10 @@
 		F63BFF3729087E9D00E18B62 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		F63BFF3F29087EB500E18B62 /* SimpleCommon */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = SimpleCommon; path = ../..; sourceTree = "<group>"; };
 		F63BFF4029087F1B00E18B62 /* MailTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MailTestView.swift; sourceTree = "<group>"; };
-		F63BFF4529088DD600E18B62 /* ShareSheetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareSheetView.swift; sourceTree = "<group>"; };
 		F63BFF472908B3D000E18B62 /* TrackableScrollViewTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackableScrollViewTestView.swift; sourceTree = "<group>"; };
 		F63BFF4929099D7700E18B62 /* SimplePanelTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimplePanelTestView.swift; sourceTree = "<group>"; };
 		F63BFF4B2909A33E00E18B62 /* ColorTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorTestView.swift; sourceTree = "<group>"; };
+		F63BFF53290A391800E18B62 /* SimpleShareSheetView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimpleShareSheetView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -69,7 +69,7 @@
 				F63BFF3029087E9B00E18B62 /* simplecommon_exampleApp.swift */,
 				F63BFF3229087E9B00E18B62 /* ContentView.swift */,
 				F63BFF4B2909A33E00E18B62 /* ColorTestView.swift */,
-				F63BFF4529088DD600E18B62 /* ShareSheetView.swift */,
+				F63BFF53290A391800E18B62 /* SimpleShareSheetView.swift */,
 				F63BFF4929099D7700E18B62 /* SimplePanelTestView.swift */,
 				F63BFF4029087F1B00E18B62 /* MailTestView.swift */,
 				F63BFF472908B3D000E18B62 /* TrackableScrollViewTestView.swift */,
@@ -180,7 +180,7 @@
 				F63BFF4129087F1B00E18B62 /* MailTestView.swift in Sources */,
 				F63BFF4A29099D7700E18B62 /* SimplePanelTestView.swift in Sources */,
 				F63BFF4C2909A33E00E18B62 /* ColorTestView.swift in Sources */,
-				F63BFF4629088DD600E18B62 /* ShareSheetView.swift in Sources */,
+				F63BFF54290A391800E18B62 /* SimpleShareSheetView.swift in Sources */,
 				F63BFF3129087E9B00E18B62 /* simplecommon_exampleApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

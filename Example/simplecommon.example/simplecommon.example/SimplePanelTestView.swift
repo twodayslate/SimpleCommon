@@ -10,6 +10,7 @@ extension SimplePanelStyle: CustomStringConvertible {
         case .cancel: return "Cancel"
         case .save: return "Save"
         case .saveAndCancel: return "Save and Cancel"
+        case .done: return "Done"
         }
     }
 }

@@ -40,12 +40,13 @@ public struct SimplePanel<Content>: View where Content: View {
                 .foregroundColor(Color(UIColor.systemGray3))
         case .save:
             Text("Save")
-                .bold()
         case .saveAndCancel:
             Text("Save")
                 .bold()
         case .cancel:
             Text("Cancel")
+        case .done:
+            Text("Done")
         }
     }
 

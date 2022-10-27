@@ -28,7 +28,7 @@ struct HorizontallyAlignedLabelStyle: LabelStyle {
 /// 2. `imagePath`
 /// 3. `imageName`
 /// 4. `systemImage`
-public struct IconLabel: View {
+public struct SimpleIconLabel: View {
     let iconBackgroundColor: Color
     let iconColor: Color
     let systemImage: String
@@ -115,9 +115,9 @@ public struct IconLabel: View {
 struct IconLabel_Previews: PreviewProvider {
     static var previews: some View {
         VStack(alignment: .leading) {
-            IconLabel(text: "Hello")
-            IconLabel(iconBackgroundColor: .blue, iconColor: .white, systemImage: "square", image: nil, text: "Hello Square @0.6", iconScale: 0.6)
-            IconLabel(iconBackgroundColor: .blue, iconColor: .red, systemImage: "checkmark", image: nil, text: "Hello Checkmark @1.0", iconScale: 1.0)
+            SimpleIconLabel(text: "Hello")
+            SimpleIconLabel(iconBackgroundColor: .blue, iconColor: .white, systemImage: "square", image: nil, text: "Hello Square @0.6", iconScale: 0.6)
+            SimpleIconLabel(iconBackgroundColor: .blue, iconColor: .red, systemImage: "checkmark", image: nil, text: "Hello Checkmark @1.0", iconScale: 1.0)
         }
         .previewLayout(.sizeThatFits)
     }

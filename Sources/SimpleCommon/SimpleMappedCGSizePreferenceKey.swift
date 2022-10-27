@@ -2,7 +2,7 @@ import SwiftUI
 
 import Foundation
 
-public struct MappedCGSizePreferenceKey: PreferenceKey {
+public struct SimpleMappedCGSizePreferenceKey: PreferenceKey {
     public typealias Value = [String: CGSize]
 
     public static var defaultValue: [String: CGSize] = [:]

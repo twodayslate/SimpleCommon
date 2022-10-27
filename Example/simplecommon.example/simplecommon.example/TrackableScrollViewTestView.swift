@@ -8,7 +8,7 @@ struct TrackableScrollViewTestView: View {
     @State var dontScrollIfFits = false
     @State var axis = Axis.Set.vertical.rawValue
     var body: some View {
-        TrackableScrollView(
+        SimpleScrollView(
             Axis.Set(rawValue: axis),
             showIndicators: showIndicator,
             dontScrollIfContentFits: dontScrollIfFits,

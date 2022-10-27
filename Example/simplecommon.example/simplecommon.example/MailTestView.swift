@@ -11,7 +11,7 @@ struct MailTestView: View {
     @State var result: Result<MFMailComposeResult, Error>?
 
     var composeView: some View {
-        MailView(
+        SimpleMailView(
             result: $result,
             subject: subject,
             toReceipt: ["to@me.com", "to@you.com"]

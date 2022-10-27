@@ -11,7 +11,7 @@ struct ShareSheetTestView: View {
             Text("Show")
         })
             .sheet(isPresented: $show) {
-                ShareSheetView(activityItems: [contents])
+                SimpleShareSheetView(activityItems: [contents])
             }
     }
 }

@@ -1,6 +1,6 @@
 import SwiftUI
 
-public struct MappedCGFloatPreferenceKey: PreferenceKey {
+public struct SimpleMappedCGFloatPreferenceKey: PreferenceKey {
     public typealias Value = [String: CGFloat]
 
     public static var defaultValue: [String: CGFloat] = [:]
