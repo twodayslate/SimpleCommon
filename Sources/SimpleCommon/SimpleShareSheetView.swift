@@ -1,6 +1,7 @@
 import SwiftUI
 import UIKit
 
+#if !os(tvOS)
 public struct SimpleShareSheetView: UIViewControllerRepresentable {
     public typealias Callback = (_ activityType: UIActivity.ActivityType?, _ completed: Bool, _ returnedItems: [Any]?, _ error: Error?) -> Void
 
@@ -35,3 +36,4 @@ public struct SimpleShareSheetView: UIViewControllerRepresentable {
         // nothing to do here
     }
 }
+#endif

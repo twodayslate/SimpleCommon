@@ -37,7 +37,9 @@ public struct SimplePanel<Content>: View where Content: View {
         switch style {
         case .close:
             Image(systemName: "xmark.circle.fill")
+            #if !os(tvOS)
                 .foregroundColor(Color(UIColor.systemGray3))
+            #endif
         case .save:
             Text("Save")
         case .saveAndCancel:
@@ -85,6 +87,20 @@ public struct SimplePanel<Content>: View where Content: View {
             } label: {
                 trailingItem
             }
+        case .close:
+            Button {
+                do {
+                    try trailingAction?()
+                    dismiss()
+                } catch {
+                    // no-op
+                }
+            } label: {
+                trailingItem
+            }
+            #if os(tvOS)
+            .buttonStyle(.card)
+            #endif
         default:
             Button {
                 do {

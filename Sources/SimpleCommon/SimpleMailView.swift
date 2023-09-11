@@ -1,5 +1,5 @@
 import SwiftUI
-import UIKit
+#if canImport(MessageUI)
 import MessageUI
 
 /// A SwiftUI Wrapper for `MFMailComposeViewController`
@@ -122,3 +122,5 @@ public extension View {
         )
     }
 }
+
+#endif

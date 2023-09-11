@@ -8,6 +8,7 @@
 import Foundation
 import UIKit
 
+#if !os(tvOS)
 /**
  An Open in Safari action for URLs
  */
@@ -51,3 +52,4 @@ public class SimpleSafariActivity: UIActivity {
         })
     }
 }
+#endif
