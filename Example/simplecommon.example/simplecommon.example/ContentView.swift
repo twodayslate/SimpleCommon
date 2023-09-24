@@ -18,6 +18,7 @@ struct ContentView: View {
                 NavigationLink("Test TrackableScrollView", destination: TrackableScrollViewTestView())
                 NavigationLink("Test SimplePanel", destination: SimplePanelTestView())
                 NavigationLink("Test Color", destination: ColorTestView())
+                NavigationLink("Test AppIcon", destination: AppIcon())
             }
         }
     }

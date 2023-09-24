@@ -28,15 +28,16 @@ struct HorizontallyAlignedLabelStyle: LabelStyle {
 /// 2. `imagePath`
 /// 3. `imageName`
 /// 4. `systemImage`
-public struct SimpleIconLabel: View {
+public struct SimpleIconLabel<Content: View, S: StringProtocol>: View {
     let iconBackgroundColor: Color
     let iconColor: Color
-    let systemImage: String
+    let systemImage: String?
     let image: Image?
     let imageName: String?
     let imageFile: String?
-    let text: String
+    let text: S
     let iconScale: CGFloat
+    let view: () -> Content
 
     /// Creates a label with an icon image and a title generated from a string.
     /// - Parameters:
@@ -51,12 +52,13 @@ public struct SimpleIconLabel: View {
     public init(
         iconBackgroundColor: Color = Color.accentColor,
         iconColor: Color = Color.white,
-        systemImage: String = "xmark.square",
+        systemImage: String? = nil,
         image: Image? = nil,
         imageName: String? = nil,
         imagePath: String? = nil,
-        text: String,
-        iconScale: Double = 0.6
+        text: S,
+        iconScale: Double = 0.6,
+        @ViewBuilder view: @escaping () -> Content = { Color.clear }
     ) {
         self.iconBackgroundColor = iconBackgroundColor
         self.iconColor = iconColor
@@ -66,6 +68,7 @@ public struct SimpleIconLabel: View {
         self.imageFile = imagePath
         self.text = text
         self.iconScale = iconScale
+        self.view = view
     }
 
     public var body: some View {
@@ -88,8 +91,12 @@ public struct SimpleIconLabel: View {
                         }
                         else if let name = imageName {
                             modified(image: Image(name))
-                        } else {
+                        } else if let systemImage {
                             modified(image: Image(systemName: systemImage))
+                        } else {
+                            view()
+                                .foregroundColor(iconColor)
+                                .scaleEffect(CGSize(width: iconScale, height: iconScale))
                         }
                     }
                     .mask {
@@ -118,6 +125,9 @@ struct IconLabel_Previews: PreviewProvider {
             SimpleIconLabel(text: "Hello")
             SimpleIconLabel(iconBackgroundColor: .blue, iconColor: .white, systemImage: "square", image: nil, text: "Hello Square @0.6", iconScale: 0.6)
             SimpleIconLabel(iconBackgroundColor: .blue, iconColor: .red, systemImage: "checkmark", image: nil, text: "Hello Checkmark @1.0", iconScale: 1.0)
+            SimpleIconLabel(iconBackgroundColor: .black, text: "Twitter", iconScale: 1.0) {
+                Text("𝕏")
+            }
         }
         .previewLayout(.sizeThatFits)
     }

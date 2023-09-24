@@ -17,6 +17,7 @@
 		F63BFF4A29099D7700E18B62 /* SimplePanelTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63BFF4929099D7700E18B62 /* SimplePanelTestView.swift */; };
 		F63BFF4C2909A33E00E18B62 /* ColorTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63BFF4B2909A33E00E18B62 /* ColorTestView.swift */; };
 		F63BFF54290A391800E18B62 /* SimpleShareSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F63BFF53290A391800E18B62 /* SimpleShareSheetView.swift */; };
+		F6A6B5DE2AC0EAE7001795A8 /* AppIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6A6B5DD2AC0EAE7001795A8 /* AppIcon.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -31,6 +32,7 @@
 		F63BFF4929099D7700E18B62 /* SimplePanelTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimplePanelTestView.swift; sourceTree = "<group>"; };
 		F63BFF4B2909A33E00E18B62 /* ColorTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorTestView.swift; sourceTree = "<group>"; };
 		F63BFF53290A391800E18B62 /* SimpleShareSheetView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimpleShareSheetView.swift; sourceTree = "<group>"; };
+		F6A6B5DD2AC0EAE7001795A8 /* AppIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppIcon.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -73,6 +75,7 @@
 				F63BFF4929099D7700E18B62 /* SimplePanelTestView.swift */,
 				F63BFF4029087F1B00E18B62 /* MailTestView.swift */,
 				F63BFF472908B3D000E18B62 /* TrackableScrollViewTestView.swift */,
+				F6A6B5DD2AC0EAE7001795A8 /* AppIcon.swift */,
 				F63BFF3429087E9D00E18B62 /* Assets.xcassets */,
 				F63BFF3629087E9D00E18B62 /* Preview Content */,
 			);
@@ -177,6 +180,7 @@
 			files = (
 				F63BFF3329087E9B00E18B62 /* ContentView.swift in Sources */,
 				F63BFF482908B3D000E18B62 /* TrackableScrollViewTestView.swift in Sources */,
+				F6A6B5DE2AC0EAE7001795A8 /* AppIcon.swift in Sources */,
 				F63BFF4129087F1B00E18B62 /* MailTestView.swift in Sources */,
 				F63BFF4A29099D7700E18B62 /* SimplePanelTestView.swift in Sources */,
 				F63BFF4C2909A33E00E18B62 /* ColorTestView.swift in Sources */,
