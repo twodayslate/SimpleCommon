@@ -139,4 +139,12 @@ extension EnvironmentValues {
             self[IconEnvironmentKey.self]?.badSet(newValue)
         }
     }
+
+    @MainActor public var simpleAppIconModel: AppIconModel? {
+        get { self[IconEnvironmentKey.self] ?? AppIconModel() }
+        set {
+            self[IconEnvironmentKey.self] = newValue
+        }
+    }
+
 }
