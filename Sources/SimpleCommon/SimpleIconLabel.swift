@@ -4,6 +4,8 @@ struct HorizontallyAlignedLabelStyle: LabelStyle {
     ///https://www.hackingwithswift.com/forums/swiftui/vertical-align-icon-of-label/3346
     @Environment(\.sizeCategory) var size
 
+    var style: any LabelStyle
+
     func makeBody(configuration: Configuration) -> some View {
         HStack(alignment: .center) {
             if size >= .accessibilityMedium {
@@ -13,7 +15,9 @@ struct HorizontallyAlignedLabelStyle: LabelStyle {
                 configuration.icon
                     .frame(width: 30)
             }
-            configuration.title
+            if !(style is IconOnlyLabelStyle) {
+                configuration.title
+            }
         }
     }
 }
@@ -38,6 +42,7 @@ public struct SimpleIconLabel<Content: View, S: StringProtocol>: View {
     let text: S
     let iconScale: CGFloat
     let view: () -> Content
+    var labelStyle: any LabelStyle = TitleAndIconLabelStyle()
 
     /// Creates a label with an icon image and a title generated from a string.
     /// - Parameters:
@@ -107,7 +112,7 @@ public struct SimpleIconLabel<Content: View, S: StringProtocol>: View {
                     }
             }
         )
-        .labelStyle(HorizontallyAlignedLabelStyle())
+        .labelStyle(HorizontallyAlignedLabelStyle(style: labelStyle))
     }
 
     func modified(image: Image) -> some View {
@@ -116,6 +121,13 @@ public struct SimpleIconLabel<Content: View, S: StringProtocol>: View {
             .aspectRatio(contentMode: .fit)
             .scaleEffect(CGSize(width: iconScale, height: iconScale))
             .foregroundColor(self.iconColor)
+    }
+
+    /// Hides the title of this view.
+    public func labelsHidden() -> Self {
+        var _self = self
+        _self.labelStyle = IconOnlyLabelStyle()
+        return _self
     }
 }
 
@@ -128,6 +140,8 @@ struct IconLabel_Previews: PreviewProvider {
             SimpleIconLabel(iconBackgroundColor: .black, text: "Twitter", iconScale: 1.0) {
                 Text("𝕏")
             }
+            SimpleIconLabel(systemImage: "eye.slash", text: "Hidden")
+                .labelsHidden()
         }
         .previewLayout(.sizeThatFits)
     }

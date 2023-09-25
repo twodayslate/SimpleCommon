@@ -19,26 +19,14 @@ struct AppIcon: View {
     var body: some View {
         List {
             Section("Current") {
-
-                icon?.thumbnail()
-
                 HStack {
-                    Text("AlternativeIconName")
                     Spacer()
-                    Text("\(icon?.alternateIconName ?? "nil")")
-                }
-
-                HStack {
-                    Text("assetnName")
+                    icon?.thumbnail()
                     Spacer()
-                    Text("\(icon?.assetName ?? "nil")")
                 }
-
-                HStack {
-                    Text("Bundle")
-                    Spacer()
-                    Text("\(icon?.bundle?.bundleIdentifier ?? "nil")")
-                }
+                LabeledContent("alternativeIconName", value: "\(icon?.alternateIconName ?? "nil")")
+                LabeledContent("assetnName", value: "\(icon?.assetName ?? "nil")")
+                LabeledContent("bundle", value: "\(icon?.bundle?.bundleIdentifier ?? "nil")")
             }
         }
         .onAppear {
