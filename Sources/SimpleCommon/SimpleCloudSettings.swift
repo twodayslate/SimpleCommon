@@ -2,7 +2,7 @@ import SwiftUI
 #if canImport(CloudKitSyncMonitor)
 import CloudKitSyncMonitor
 
-struct SimpleCloudSettings: View {
+public struct SimpleCloudSettings: View {
     @ObservedObject var syncMonitor = SyncMonitor.shared
 
     var body: some View {
