@@ -2,10 +2,11 @@ import SwiftUI
 #if canImport(CloudKitSyncMonitor)
 import CloudKitSyncMonitor
 
+@available(iOS 16.0, macOS 13.0, tvOS 16.0, watchOS 9.0, *)
 public struct SimpleCloudSettings: View {
     @ObservedObject var syncMonitor = SyncMonitor.shared
 
-    var body: some View {
+    public var body: some View {
         List {
             LabeledContent {
                 Text(stateText(for: syncMonitor.setupState))
