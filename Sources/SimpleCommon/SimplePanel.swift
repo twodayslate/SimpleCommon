@@ -7,8 +7,8 @@ import UIKit
 /// leading and trailing items. See ``SimplePanelStyle`` for a list of available styles.
 public struct SimplePanel<Content>: View where Content: View {
     let style: SimplePanelStyle
-    let leadingAction: (() throws -> Void)?
-    let trailingAction: (() throws -> Void)?
+    let leadingAction: (() async throws -> Void)?
+    let trailingAction: (() async throws -> Void)?
     let content: () -> Content
 
     @Environment(\.dismiss) private var dismiss
@@ -23,8 +23,8 @@ public struct SimplePanel<Content>: View where Content: View {
     ///   If the action does not throw then the view will be dismissed
     public init(
         style: SimplePanelStyle = .close,
-        leadingAction: (() throws -> Void)? = nil,
-        trailingAction: (() throws -> Void)? = nil,
+        leadingAction: ( () async throws -> Void)? = nil,
+        trailingAction: (() async throws -> Void)? = nil,
         @ViewBuilder content: @escaping () -> Content
     ) {
         self.content = content
@@ -63,11 +63,13 @@ public struct SimplePanel<Content>: View where Content: View {
 
     @ViewBuilder var leadingButton: some View {
         Button(role: .cancel, action: {
-            do {
-                try self.leadingAction?()
-                dismiss()
-            } catch {
-                // no-op
+            Task {
+                do {
+                    try await self.leadingAction?()
+                    dismiss()
+                } catch {
+                    // no-op
+                }
             }
         }, label: {
             leadingItem
@@ -78,23 +80,13 @@ public struct SimplePanel<Content>: View where Content: View {
         switch style {
         case .cancel:
             Button(role: .cancel) {
-                do {
-                    try trailingAction?()
-                    dismiss()
-                } catch {
-                    // no-op
-                }
+                doTrailingAction()
             } label: {
                 trailingItem
             }
         case .close:
             Button {
-                do {
-                    try trailingAction?()
-                    dismiss()
-                } catch {
-                    // no-op
-                }
+                doTrailingAction()
             } label: {
                 trailingItem
             }
@@ -103,14 +95,20 @@ public struct SimplePanel<Content>: View where Content: View {
             #endif
         default:
             Button {
-                do {
-                    try trailingAction?()
-                    dismiss()
-                } catch {
-                    // no-op
-                }
+                doTrailingAction()
             } label: {
                 trailingItem
+            }
+        }
+    }
+
+    func doTrailingAction() {
+        Task {
+            do {
+                try await trailingAction?()
+                dismiss()
+            } catch {
+                // no-op
             }
         }
     }
