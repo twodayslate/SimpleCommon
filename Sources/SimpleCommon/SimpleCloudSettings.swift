@@ -6,6 +6,10 @@ import CloudKitSyncMonitor
 public struct SimpleCloudSettings: View {
     @ObservedObject var syncMonitor = SyncMonitor.shared
 
+    public init(syncMonitor: SyncMonitor = SyncMonitor.shared) {
+        self.syncMonitor = syncMonitor
+    }
+
     public var body: some View {
         List {
             LabeledContent {
