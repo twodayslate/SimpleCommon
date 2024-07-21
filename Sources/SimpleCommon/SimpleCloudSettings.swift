@@ -6,8 +6,14 @@ import CloudKitSyncMonitor
 public struct SimpleCloudSettings: View {
     @ObservedObject var syncMonitor = SyncMonitor.shared
 
-    public init(syncMonitor: SyncMonitor = SyncMonitor.shared) {
-        self.syncMonitor = syncMonitor
+    /// Create a simple iCloud settings view
+    /// - Parameter syncMonitor: If `nil`, use the shared instance
+    public init(syncMonitor: SyncMonitor? = nil) {
+        if let syncMonitor {
+            self.syncMonitor = syncMonitor
+        } else {
+            self.syncMonitor = .shared
+        }
     }
 
     public var body: some View {
