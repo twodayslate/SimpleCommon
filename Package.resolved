@@ -1,0 +1,32 @@
+{
+  "pins" : [
+    {
+      "identity" : "cloudkitsyncmonitor",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/ggruen/CloudKitSyncMonitor.git",
+      "state" : {
+        "revision" : "f84f9c074b2c55adc7dc364a4437cfe7249ae529",
+        "version" : "1.4.1"
+      }
+    },
+    {
+      "identity" : "swift-docc-plugin",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/apple/swift-docc-plugin.git",
+      "state" : {
+        "revision" : "3e4f133a77e644a5812911a0513aeb7288b07d06",
+        "version" : "1.4.5"
+      }
+    },
+    {
+      "identity" : "swift-docc-symbolkit",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/swiftlang/swift-docc-symbolkit",
+      "state" : {
+        "revision" : "b45d1f2ed151d057b54504d653e0da5552844e34",
+        "version" : "1.0.0"
+      }
+    }
+  ],
+  "version" : 2
+}
