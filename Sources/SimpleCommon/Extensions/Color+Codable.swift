@@ -1,38 +1,54 @@
-#if canImport(UIKit)
+#if canImport(UIKit) || canImport(AppKit)
 import SwiftUI
-import UIKit
+
+private struct CodableRGBA: Codable {
+    let r: Double
+    let g: Double
+    let b: Double
+    let a: Double
+}
+
+private enum ColorCodingError: Error {
+    case invalidColor
+}
 
 extension Color: Codable {
     public init(from decoder: Decoder) throws {
-        let uiColor = try UIColor(from: decoder)
-        self = Color(uiColor)
+        let rgba = try CodableRGBA(from: decoder)
+        self = Color(.sRGB, red: rgba.r, green: rgba.g, blue: rgba.b, opacity: rgba.a)
     }
 
     public func encode(to encoder: Encoder) throws {
-        try UIColor(self).encode(to: encoder)
+        let rgba = try rgbaComponents()
+        try rgba.encode(to: encoder)
     }
 }
-#elseif canImport(AppKit)
-import SwiftUI
-import AppKit
 
-extension Color: Codable {
-    public init(from decoder: Decoder) throws {
-        let nsColor = try NSColor(from: decoder)
-        self = Color(nsColor)
-    }
-
-    public func encode(to encoder: Encoder) throws {
-        guard let nsColor = NSColor(self) else {
-            throw EncodingError.invalidValue(
-                self,
-                EncodingError.Context(
-                    codingPath: encoder.codingPath,
-                    debugDescription: "Unable to convert Color to NSColor"
-                )
-            )
+private extension Color {
+    func rgbaComponents() throws -> CodableRGBA {
+        #if canImport(UIKit)
+        let color = UIColor(self)
+        var r: CGFloat = 0
+        var g: CGFloat = 0
+        var b: CGFloat = 0
+        var a: CGFloat = 0
+        guard color.getRed(&r, green: &g, blue: &b, alpha: &a) else {
+            throw ColorCodingError.invalidColor
         }
-        try nsColor.encode(to: encoder)
+        return CodableRGBA(r: Double(r), g: Double(g), b: Double(b), a: Double(a))
+        #elseif canImport(AppKit)
+        guard let color = NSColor(self)?.usingColorSpace(.sRGB) else {
+            throw ColorCodingError.invalidColor
+        }
+        var r: CGFloat = 0
+        var g: CGFloat = 0
+        var b: CGFloat = 0
+        var a: CGFloat = 0
+        color.getRed(&r, green: &g, blue: &b, alpha: &a)
+        return CodableRGBA(r: Double(r), g: Double(g), b: Double(b), a: Double(a))
+        #else
+        throw ColorCodingError.invalidColor
+        #endif
     }
 }
 #endif
