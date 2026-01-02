@@ -15,7 +15,7 @@ jobs:
         destination:
           - 'platform=macOS'
           - 'platform=macOS,variant=Mac Catalyst'
-          - 'platform=iOS Simulator,name=iPhone 15,OS=latest'
+          - 'platform=iOS Simulator,name=iPhone 16,OS=latest'
 
     steps:
     - uses: actions/checkout@v4
