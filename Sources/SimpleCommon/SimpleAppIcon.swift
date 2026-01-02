@@ -1,4 +1,7 @@
 import SwiftUI
+#if canImport(UIKit)
+import UIKit
+#endif
 
 public struct SimpleAppIcon: Sendable, Codable, Equatable, Hashable {
     /// The name of the icon the system displays for the app.
@@ -81,13 +84,18 @@ public struct SimpleAppIcon: Sendable, Codable, Equatable, Hashable {
     static public var allIcons = Set<SimpleAppIcon>()
 
     static public var current: SimpleAppIcon? {
-        allIcons.filter {
+        #if canImport(UIKit)
+        return allIcons.first {
             $0.alternateIconName == UIApplication.shared.alternateIconName
-        }.first
+        }
+        #else
+        return nil
+        #endif
     }
 
 }
 
+#if canImport(UIKit)
 @MainActor
 public class AppIconModel: ObservableObject {
     @Published public private(set) var icon = SimpleAppIcon.current
@@ -127,6 +135,28 @@ public class AppIconModel: ObservableObject {
     }
 
 }
+#else
+@MainActor
+public class AppIconModel: ObservableObject {
+    @Published public private(set) var icon: SimpleAppIcon? = nil
+
+    public enum Errors: Error {
+        case alternativeIconsNotSupported
+    }
+
+    public func set(_ icon: SimpleAppIcon) async throws {
+        throw Errors.alternativeIconsNotSupported
+    }
+
+    func reset() {
+        icon = nil
+    }
+
+    func badSet(_ icon: SimpleAppIcon?) {
+        // no-op on non-UIKit platforms
+    }
+}
+#endif
 
 private struct IconEnvironmentKey: EnvironmentKey {
     static let defaultValue: AppIconModel? = nil

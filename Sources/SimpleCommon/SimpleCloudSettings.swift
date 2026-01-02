@@ -56,7 +56,7 @@ public struct SimpleCloudSettings: View {
                 }
             }
         }
-        .navigationBarTitle("iCloud Status")
+        .navigationTitle("iCloud Status")
     }
 
     var hasError: Bool {

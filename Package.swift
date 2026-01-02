@@ -7,7 +7,7 @@ let package = Package(
     name: "SimpleCommon",
     platforms: [
         .iOS(.v15),
-        .macOS(.v12),
+        .macOS(.v13),
         .macCatalyst(.v15),
         .tvOS(.v15)
     ],

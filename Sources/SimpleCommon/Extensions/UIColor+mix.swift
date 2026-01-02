@@ -1,15 +1,7 @@
-//
-//  UIColor.swift
-//  claw
-//
-//  Created by Zachary Gorak on 9/13/20.
-//
-
-import Foundation
+#if canImport(UIKit)
 import UIKit
-import SwiftUI
 
-//https://stackoverflow.com/a/63003757/193772
+// https://stackoverflow.com/a/63003757/193772
 public extension UIColor {
     func mix(with color: UIColor, amount: CGFloat) -> Self {
         var red1: CGFloat = 0
@@ -36,3 +28,38 @@ public extension UIColor {
     func lighter(by amount: CGFloat = 0.2) -> Self { mix(with: .white, amount: amount) }
     func darker(by amount: CGFloat = 0.2) -> Self { mix(with: .black, amount: amount) }
 }
+#elseif canImport(AppKit)
+import AppKit
+
+public extension NSColor {
+    func mix(with color: NSColor, amount: CGFloat) -> Self {
+        guard let color1 = usingColorSpace(.sRGB),
+              let color2 = color.usingColorSpace(.sRGB) else {
+            return self
+        }
+
+        var red1: CGFloat = 0
+        var green1: CGFloat = 0
+        var blue1: CGFloat = 0
+        var alpha1: CGFloat = 0
+
+        var red2: CGFloat = 0
+        var green2: CGFloat = 0
+        var blue2: CGFloat = 0
+        var alpha2: CGFloat = 0
+
+        color1.getRed(&red1, green: &green1, blue: &blue1, alpha: &alpha1)
+        color2.getRed(&red2, green: &green2, blue: &blue2, alpha: &alpha2)
+
+        return Self(
+            srgbRed: red1 * CGFloat(1.0 - amount) + red2 * amount,
+            green: green1 * CGFloat(1.0 - amount) + green2 * amount,
+            blue: blue1 * CGFloat(1.0 - amount) + blue2 * amount,
+            alpha: alpha1
+        )
+    }
+
+    func lighter(by amount: CGFloat = 0.2) -> Self { mix(with: .white, amount: amount) }
+    func darker(by amount: CGFloat = 0.2) -> Self { mix(with: .black, amount: amount) }
+}
+#endif

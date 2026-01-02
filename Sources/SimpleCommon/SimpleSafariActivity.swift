@@ -6,9 +6,11 @@
 //
 
 import Foundation
+#if canImport(UIKit)
 import UIKit
+#endif
 
-#if !os(tvOS)
+#if canImport(UIKit) && !os(tvOS)
 /**
  An Open in Safari action for URLs
  */
