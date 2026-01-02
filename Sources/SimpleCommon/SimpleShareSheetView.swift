@@ -1,7 +1,9 @@
 import SwiftUI
+#if canImport(UIKit)
 import UIKit
+#endif
 
-#if !os(tvOS)
+#if canImport(UIKit) && !os(tvOS)
 public struct SimpleShareSheetView: UIViewControllerRepresentable {
     public typealias Callback = (_ activityType: UIActivity.ActivityType?, _ completed: Bool, _ returnedItems: [Any]?, _ error: Error?) -> Void
 

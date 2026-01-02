@@ -1,5 +1,4 @@
 import SwiftUI
-import UIKit
 
 /// A wrapper view for presenting a view with pre-defined NavigationView leading and trailing items
 ///
@@ -38,7 +37,7 @@ public struct SimplePanel<Content>: View where Content: View {
         case .close:
             Image(systemName: "xmark.circle.fill")
             #if !os(tvOS)
-                .foregroundColor(Color(UIColor.systemGray3))
+                .foregroundColor(.secondary)
             #endif
         case .save:
             Text("Save")
@@ -119,6 +118,19 @@ public struct SimplePanel<Content>: View where Content: View {
 
     public var body: some View {
         NavigationView {
+            #if os(macOS)
+            content()
+                .toolbar {
+                    if hasLeading {
+                        ToolbarItem(placement: .cancellationAction) {
+                            leadingButton
+                        }
+                    }
+                    ToolbarItem(placement: .confirmationAction) {
+                        trailingButton
+                    }
+                }
+            #else
             if hasLeading {
                 content()
                     .navigationBarItems(
@@ -131,6 +143,7 @@ public struct SimplePanel<Content>: View where Content: View {
                         trailing: trailingButton
                     )
             }
+            #endif
         }
     }
 }

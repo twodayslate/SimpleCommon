@@ -1,4 +1,11 @@
 import SwiftUI
+#if canImport(UIKit)
+import UIKit
+private typealias PlatformImage = UIImage
+#elseif canImport(AppKit)
+import AppKit
+private typealias PlatformImage = NSImage
+#endif
 
 struct HorizontallyAlignedLabelStyle: LabelStyle {
     ///https://www.hackingwithswift.com/forums/swiftui/vertical-align-icon-of-label/3346
@@ -80,7 +87,7 @@ public struct SimpleIconLabel<Content: View, S: StringProtocol>: View {
         Label(
             title: {
                 Text(text)
-                    .foregroundColor(Color(UIColor.label))
+                    .foregroundColor(.primary)
             },
             icon: {
                 Image(systemName: "app.fill")
@@ -91,8 +98,8 @@ public struct SimpleIconLabel<Content: View, S: StringProtocol>: View {
                         if let image = image {
                             modified(image: image)
                         }
-                        else if let path = imageFile, let uiImage = UIImage(contentsOfFile: path) {
-                            modified(image: Image(uiImage: uiImage))
+                        else if let path = imageFile, let platformImage = PlatformImage(contentsOfFile: path) {
+                            modified(image: platformImage.swiftUIImage)
                         }
                         else if let name = imageName {
                             modified(image: Image(name))
@@ -146,3 +153,13 @@ struct IconLabel_Previews: PreviewProvider {
         .previewLayout(.sizeThatFits)
     }
 }
+
+#if canImport(UIKit)
+private extension UIImage {
+    var swiftUIImage: Image { Image(uiImage: self) }
+}
+#elseif canImport(AppKit)
+private extension NSImage {
+    var swiftUIImage: Image { Image(nsImage: self) }
+}
+#endif

@@ -1,3 +1,4 @@
+#if canImport(UIKit)
 import UIKit
 
 public extension UIApplication {
@@ -15,3 +16,4 @@ public extension UIApplication {
 //                .first?.endEditing(true)
     }
 }
+#endif
